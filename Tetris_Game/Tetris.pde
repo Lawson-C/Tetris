@@ -10,14 +10,14 @@ abstract class Tetris {
 
   Tetris(PVector pos, boolean isOutline, boolean isLeft) {
     this.pos = pos;
-    move = .01;
+    this.move = .01;
     this.isOutline = isOutline;
     this.isLeft = isLeft;
-    for (int i=0; i<sects.length; i++) {
-      sects[i] = new PVector(0, 0);
+    for (int i = 0; i < this.sects.length; i++) {
+      this.sects[i] = new PVector(0, 0);
     }
   }
-  
+
   Tetris(PVector pos, boolean isOutline) {
     this(pos, isOutline, false);
   }
@@ -25,21 +25,21 @@ abstract class Tetris {
   Tetris(float x, float y, boolean isOutline) {
     this(new PVector(x, y), isOutline);
   }
-  
+
   Tetris(float x, float y, boolean isOutline, boolean isLeft) {
     this(new PVector(x, y), isOutline, isLeft);
   }
-  
+
   Tetris(Tetris other) {
     this(other.pos, other.isOutline, other.isLeft);
   }
-  
+
   void move() {
     pos.y += move;
   }
-  
+
   // setters
-  
+
   void set(Tetris other) {
     this.pos.set(other.pos);
     for (int i = 0; i < sects.length; i++) {
@@ -52,45 +52,75 @@ abstract class Tetris {
     this.isOutline = other.isOutline;
     this.isLeft = other.isLeft;
   }
-  
+
   void setPos(PVector p) {
     this.pos.set(p);
   }
-  
+
   void setSects(PVector[] s) {
     for (int i = 0; i < this.sects.length; i++) {
       this.sects[i].set(s[i]);
     }
   }
-  
+
+  void setSects(int i, PVector p) {
+    this.sects[i].set(p);
+  }
+
   void setC(color c) {
     this.c = c;
   }
-  
+
   void setOutline(color o) {
     this.outline = o;
   }
-  
-  void setRot(int r) {
-    this.rot = r;
-  }
-  
+
   void setMove(float m) {
     this.move = m;
   }
-  
+
   void setIsOutline(boolean b) {
     this.isOutline = b;
   }
-  
+
   void setIsLeft(boolean b) {
     this.isLeft = b;
   }
-  
+
   // getters
-  
-  
-  
+
+  PVector getPos() {
+    return this.pos;
+  }
+
+  PVector[] getSects() {
+    return this.sects;
+  }
+
+  PVector getSects(int i) {
+    return this.sects[i];
+  }
+
+  color getC() {
+    return this.c;
+  }
+
+  color getOutline() {
+    return this.outline;
+  }
+
+  float getMove() {
+    return this.move;
+  }
+
+  boolean isOutline() {
+    return this.isOutline;
+  }
+
+  boolean isLeft() {
+    return this.isLeft;
+  }
+
   // misc
 
   void moveRight() {
@@ -161,54 +191,6 @@ abstract class Tetris {
     }
   }
 
-  int lowestSect() {
-    int out = 0;
-    float highest = sects[0].y;
-    for (int i=1; i<sects.length; i++) {
-      if (sects[i].y > highest) {
-        highest = sects[i].y;
-        out = i;
-      }
-    }
-    return out;
-  }
-
-  int rightestSect() {
-    int out = 0;
-    float highest = sects[0].x;
-    for (int i=1; i<sects.length; i++) {
-      if (sects[i].x > highest) {
-        highest = sects[i].x;
-        out = i;
-      }
-    }
-    return out;
-  }
-
-  int highestSect() {
-    int out = 0;
-    float highest = sects[0].y;
-    for (int i=1; i<sects.length; i++) {
-      if (sects[i].y < highest) {
-        highest = sects[i].y;
-        out = i;
-      }
-    }
-    return out;
-  }
-
-  int leftestSect() {
-    int out = 0;
-    float highest = sects[0].x;
-    for (int i=1; i<sects.length; i++) {
-      if (sects[i].x < highest) {
-        highest = sects[i].x;
-        out = i;
-      }
-    }
-    return out;
-  }
-
   void display() {
     for (int i=0; i<sects.length; i++) {
       stroke(outline);
@@ -223,7 +205,7 @@ abstract class Tetris {
       rot -= 1;
     }
     if (rot == prevRot) {
-      for (int i=0; i<sects.length; i++) {
+      for (int i = 0; i < sects.length; i++) {
         if (pos.x + sects[i].x < 0 || pos.x + sects[i].x >= stageWidth) {
           rot -= 1;
           break;
@@ -237,5 +219,53 @@ abstract class Tetris {
     if (rot < 0) {
       rot = 3;
     }
+  }
+
+  int lowestSect() {
+    int out = 0;
+    float highest = sects[0].y;
+    for (int i = 1; i < sects.length; i++) {
+      if (sects[i].y > highest) {
+        highest = sects[i].y;
+        out = i;
+      }
+    }
+    return out;
+  }
+
+  int rightestSect() {
+    int out = 0;
+    float highest = sects[0].x;
+    for (int i = 1; i < sects.length; i++) {
+      if (sects[i].x > highest) {
+        highest = sects[i].x;
+        out = i;
+      }
+    }
+    return out;
+  }
+
+  int highestSect() {
+    int out = 0;
+    float highest = sects[0].y;
+    for (int i = 1; i < sects.length; i++) {
+      if (sects[i].y < highest) {
+        highest = sects[i].y;
+        out = i;
+      }
+    }
+    return out;
+  }
+
+  int leftestSect() {
+    int out = 0;
+    float highest = sects[0].x;
+    for (int i = 1; i < sects.length; i++) {
+      if (sects[i].x < highest) {
+        highest = sects[i].x;
+        out = i;
+      }
+    }
+    return out;
   }
 }
