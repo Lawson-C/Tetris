@@ -3,5 +3,10 @@ class LBolt extends Tetris {
 
   LBolt(PVector pos, boolean isLeft, boolean isOutline) {
     super(pos, isOutline);
+    this.isLeft = isLeft;
+  }
+  
+  LBolt(Tetris other) {
+    super(other);
   }
 }

@@ -12,6 +12,10 @@ class Hero extends Tetris {
   Hero(float x, float y, boolean isOutline) {
     this(new PVector(x, y), isOutline);
   }
+  
+  Hero(Tetris other) {
+    super(other);
+  }
 
   @Override
     void rot() {

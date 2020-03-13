@@ -12,4 +12,8 @@ class Box extends Tetris {
   Box(float x, float y, boolean isOutline) {
     this(new PVector(x, y), isOutline);
   }
+  
+  Box(Tetris other) {
+    super(other);
+  }
 }

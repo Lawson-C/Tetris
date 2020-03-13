@@ -1,12 +1,12 @@
-class Tetris {
-  PVector pos;
-  PVector[] sects = new PVector[4];
-  color c;
-  color outline;
-  int rot = 0;
-  float move;
-  boolean isOutline;
-  boolean isLeft;
+abstract class Tetris {
+  private PVector pos;
+  private PVector[] sects = new PVector[4];
+  private color c;
+  private color outline;
+  private int rot = 0;
+  private float move;
+  private boolean isOutline;
+  private boolean isLeft;
 
   Tetris(PVector pos, boolean isOutline, boolean isLeft) {
     this.pos = pos;
@@ -30,9 +30,68 @@ class Tetris {
     this(new PVector(x, y), isOutline, isLeft);
   }
   
+  Tetris(Tetris other) {
+    this(other.pos, other.isOutline, other.isLeft);
+  }
+  
   void move() {
     pos.y += move;
   }
+  
+  // setters
+  
+  void set(Tetris other) {
+    this.pos.set(other.pos);
+    for (int i = 0; i < sects.length; i++) {
+      this.sects[i].set(other.sects[i]);
+    }
+    this.c = other.c;
+    this.outline = other.outline;
+    this.rot = other.rot;
+    this.move = other.move;
+    this.isOutline = other.isOutline;
+    this.isLeft = other.isLeft;
+  }
+  
+  void setPos(PVector p) {
+    this.pos.set(p);
+  }
+  
+  void setSects(PVector[] s) {
+    for (int i = 0; i < this.sects.length; i++) {
+      this.sects[i].set(s[i]);
+    }
+  }
+  
+  void setC(color c) {
+    this.c = c;
+  }
+  
+  void setOutline(color o) {
+    this.outline = o;
+  }
+  
+  void setRot(int r) {
+    this.rot = r;
+  }
+  
+  void setMove(float m) {
+    this.move = m;
+  }
+  
+  void setIsOutline(boolean b) {
+    this.isOutline = b;
+  }
+  
+  void setIsLeft(boolean b) {
+    this.isLeft = b;
+  }
+  
+  // getters
+  
+  
+  
+  // misc
 
   void moveRight() {
     if (pos.x + sects[rightestSect()].x < stageWidth - 1) {
@@ -148,10 +207,6 @@ class Tetris {
       }
     }
     return out;
-  }
-
-  void setSects(PVector[] sects) {
-    this.sects = sects;
   }
 
   void display() {

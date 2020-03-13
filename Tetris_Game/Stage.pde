@@ -12,8 +12,6 @@ class Stage {
   }
 
   void display() {
-    float trueStageWidth = width - 2 * borderWidth;
-    float trueStageHeight = height - 2 * borderHeight;
     pushMatrix();
     for (int x = 0; x < stageWidth; x++) {
       for (int y = 0; y < stageHeight; y++) {

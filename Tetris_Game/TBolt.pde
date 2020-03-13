@@ -12,6 +12,10 @@ class TBolt extends Tetris {
   TBolt(float x, float y, boolean isOutline) {
     this(new PVector(x,y), isOutline);
   }
+  
+  TBolt(Tetris other) {
+    super(other);
+  }
 
   @Override
     void rot() {
