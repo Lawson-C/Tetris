@@ -41,8 +41,9 @@ class Stage {
   }
 
   void removeRows() {
-    int[] indexes = {-1, -1, -1, -1};
+    int[] indexes = {-1, -1, -1, -1}; // y values of full rows
     int numRows = 0;
+    // figure out how many rows are full
     for (int y=0; y<stageHeight; y++) {
       int tx = 0;
       for (int x=0; x<stageWidth; x++) {
@@ -57,13 +58,14 @@ class Stage {
         numRows += 1;
       }
     }
+    // go through each full row and remove it, then drop the upper rows
     if (numRows > 0) {
       for (int i=0; i < indexes.length; i++) {
         if (indexes[i] != -1) {
           for (int y=indexes[i]; y >= 0; y--) {
             for (int x=0; x < stageWidth; x++) {
               if (y > 0) {
-                blocks[x][y] = blocks[x][y-1];
+                blocks[x][y] = dupeColor(blocks[x][y-1]);
               } else if (y == 0) {
                 blocks[x][y][0] = color(0);
                 blocks[x][y][1] = color(255);
@@ -75,10 +77,18 @@ class Stage {
     } else {
       for (int i=0; i<stageWidth; i++) {
         if (blocks[i][0][0] != color(0)) {
-          //gameOver = true;
+          gameOver = true;
         }
       }
     }
     changeScore((float) numRows*200*(1.0 + (float) numRows/indexes.length));
+  }
+  
+  color[] dupeColor(color[] in) {
+    color[] out = new color[in.length];
+    for (int i = 0; i < in.length; i++) {
+      out[i] = in[i];
+    }
+    return out;
   }
 }

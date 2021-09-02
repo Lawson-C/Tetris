@@ -38,7 +38,7 @@ void draw() {
     outlinePiece.hitBorder();
 
     if (fallingPiece.collision()) {
-      fallingPiece.move = 0;
+      fallingPiece.move.y = 0;
       if (placeTimer.end == -1 && !fastDrop) {
         placeTimer = new Timer(500);
       }
@@ -80,7 +80,7 @@ void renewPiece() {
     fallingPiece = new Hero(stageWidth/2, 2, false);
   }
   if (type == 3) {
-    fallingPiece = new Hero(stageWidth/2, 2, false);
+    fallingPiece = new LBolt(stageWidth/2, 2, random(1) >= .5, false);
   }
   if (type == 4) {
     fallingPiece = new Hero(stageWidth/2, 2, false);
@@ -110,8 +110,8 @@ void keyPressed() {
     fallingPiece.moveRight();
   }
   if (key == 's') {
-    if (fallingPiece.move != 0) {
-      fallingPiece.move = 1;
+    if (fallingPiece.move.y != 0) {
+      fallingPiece.move.y = 1;
     }
   }
   if (key == 'w') {
@@ -128,7 +128,10 @@ void keyPressed() {
 
 void keyReleased() {
   if (key == 's') {
-    fallingPiece.move = .01;
+    fallingPiece.move.y = .01;
+  }
+  if (key == 'a' || key == 'd') {
+    fallingPiece.move.x = 0;
   }
 }
 
@@ -158,9 +161,27 @@ void hold() {
 }
 
 Tetris getOutline(Tetris in) {
-  Tetris out = new Tetris(in.pos.x, stageHeight - 1, true);
+  Tetris out = dupeType(in, in.pos.x, stageHeight - 1, true);
   out.sects = in.sects;
   out.outline = in.c;
   out.c = color(25);
+  if (in instanceof LBolt || in instanceof ZBolt) {
+    out.isLeft = in.isLeft;
+  }
   return out;
+}
+
+Tetris dupeType(Tetris in, float x, float y, boolean isO) {
+  if (in instanceof Box) {
+    return new Box(x, y, isO);
+  } else if (in instanceof Hero) {
+    return new Hero(x, y, isO);
+  } else if (in instanceof LBolt) {
+    return new LBolt(x, y, in.isLeft, isO);
+  } else if (in instanceof TBolt) {
+    return new TBolt(x, y, isO);
+  } else if (in instanceof ZBolt) {
+    return new ZBolt(x, y, in.isLeft, isO);
+  }
+  return null;
 }

@@ -4,13 +4,13 @@ abstract class Tetris {
   private color c;
   private color outline;
   private int rot = 0;
-  private float move;
+  private PVector move;
   private boolean isOutline;
   private boolean isLeft;
 
   Tetris(PVector pos, boolean isOutline, boolean isLeft) {
     this.pos = pos;
-    this.move = .01;
+    this.move = new PVector(0, .01);
     this.isOutline = isOutline;
     this.isLeft = isLeft;
     for (int i = 0; i < this.sects.length; i++) {
@@ -35,7 +35,7 @@ abstract class Tetris {
   }
 
   void move() {
-    pos.y += move;
+    pos.add(move);
   }
 
   // setters
@@ -75,8 +75,8 @@ abstract class Tetris {
     this.outline = o;
   }
 
-  void setMove(float m) {
-    this.move = m;
+  void setMove(float x, float y) {
+    this.move.set(x, y);
   }
 
   void setIsOutline(boolean b) {
@@ -109,7 +109,7 @@ abstract class Tetris {
     return this.outline;
   }
 
-  float getMove() {
+  PVector getMove() {
     return this.move;
   }
 
@@ -126,7 +126,7 @@ abstract class Tetris {
   void moveRight() {
     if (pos.x + sects[rightestSect()].x < stageWidth - 1) {
       if (stage.getBlock(sects[rightestSect()].x + pos.x + 1, sects[rightestSect()].y + pos.y, 0) == color(0)) {
-        pos.x += 1;
+        move.x = frameRate/180;
       }
     }
   }
@@ -134,7 +134,7 @@ abstract class Tetris {
   void moveLeft() {
     if (pos.x + sects[leftestSect()].x > 0) {
       if (stage.getBlock(sects[leftestSect()].x + pos.x - 1, sects[leftestSect()].y + pos.y, 0) == color(0)) {
-        pos.x -= 1;
+        move.x = -frameRate/180;
       }
     }
   }
